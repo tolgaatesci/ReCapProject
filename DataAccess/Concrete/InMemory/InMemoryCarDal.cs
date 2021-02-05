@@ -56,23 +56,18 @@ namespace DataAccess.Concrete.InMemory
 
         public Car Get(Expression<Func<Car, bool>> filter)
         {
+            //return _cars.Where(c => c.Id == Id).ToList();
             throw new NotImplementedException();
         }
 
-        public List<Car> GetAll()
+        
+
+        public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
         {
             return _cars;
         }
 
-        public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Car> GetAllById(int Id)
-        {
-            return _cars.Where(c => c.Id == Id).ToList();
-        }
+        
 
         public void Update(Car car)
         {
