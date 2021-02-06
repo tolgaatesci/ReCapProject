@@ -27,6 +27,16 @@ namespace Business.Concrete
             }
         }
 
+        public void Delete(Color color)
+        {
+                _colorDal.Delete(color);
+        }
+
+        public List<Color> GetAll()
+        {
+            return _colorDal.GetAll();
+        }
+
         public List<Color> GetColorsByColorType(string ColorType)
         {
             return _colorDal.GetAll(c => c.ColorType == ColorType);

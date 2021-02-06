@@ -79,17 +79,27 @@ namespace ConsoleUI
             //color2.ColorType = "Rich";
 
             //Color color3 = new Color() { ColorId = 19, ColorName = "Siyah", ColorType = "Pastel" };
-            //colorManager.Add(color2);
-            //colorManager.Add(color3);
+            //colorManager.Delete(color2);
+            //colorManager.Delete(color2);
 
-            colorManager.Add(new Color { ColorId = 18, ColorName = "Kırmızı", ColorType = "Rich" });
-            colorManager.Add(new Color { ColorId = 19, ColorName = "Siyah", ColorType = "Pastel" });
 
-            foreach (var color in colorManager.GetColorsByColorType("Rich"))
+            //colorManager.Add(new Color { ColorId = 19, ColorName = "Siyah", ColorType = "Pastel" });
+
+            foreach (var color in colorManager.GetAll())
             {
-                Console.WriteLine("Renk tipine göre renklerin isimleri" + " " + color.ColorName);
+                Console.WriteLine("{0}\t {1}\t \t{2}", color.ColorId, color.ColorName, color.ColorType);
             }
 
+            Console.WriteLine("--------------------------------------------------");
+
+            carManager.Add(new Car { BrandId = 4, ColorId = 8, DailyPrice = 400, ModelYear = 2020, Description = "Talisman" });
+
+            Console.WriteLine("--------------------------------------------------");
+
+            foreach (var car in carManager.GetCarsByBrandId(4))
+            {
+                Console.WriteLine("{0}\t {1}\t {2}\t {3}\t {4}\t {5}\t", car.Id, car.BrandId, car.ColorId, car.ModelYear, car.DailyPrice, car.Description);
+            }
         }
     }
 }

@@ -8,6 +8,8 @@ namespace Business.Abstract
     public interface IColorService
     {
         void Add(Color color);
+        void Delete(Color color);
         List<Color> GetColorsByColorType(string ColorType);
+        List<Color> GetAll();
     }
 }
