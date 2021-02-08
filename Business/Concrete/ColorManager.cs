@@ -41,5 +41,10 @@ namespace Business.Concrete
         {
             return _colorDal.GetAll(c => c.ColorType == ColorType);
         }
+
+        public void Update(Color color)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
