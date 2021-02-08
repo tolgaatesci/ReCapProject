@@ -3,6 +3,7 @@ using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Business.Concrete
@@ -10,6 +11,7 @@ namespace Business.Concrete
     public class ColorManager : IColorService
     {
         IColorDal _colorDal;
+        List<Car> _colors;
         public ColorManager(IColorDal colorDal)
         {
             _colorDal = colorDal;
@@ -44,7 +46,10 @@ namespace Business.Concrete
 
         public void Update(Color color)
         {
-            throw new NotImplementedException();
+            _colorDal.Update(color);
+            //Color colorToUpdate = _colors.SingleOrDefault(c => c.ColorId == color.ColorId);
+            //colorToUpdate.ColorName = color.ColorName;
+            //colorToUpdate.ColorType = color.ColorType;
         }
     }
 }

@@ -17,7 +17,48 @@ namespace ConsoleUI
             //AvisContextCarManagerTest();
             //AvisContextColorManagerTest();
             //CarDetailsDto();
+            //AvisContextBrandManagerAddTest();
+            //AvisContextBrandManagerDeleteTest();
+            //AvisContextColorManagerUpdateTest();
+        }
 
+        private static void AvisContextColorManagerUpdateTest()
+        {
+            IColorDal colorDal = new EfColorDal();
+            ColorManager colorManager = new ColorManager(colorDal);
+            colorManager.Update(new Color { ColorId = 17, ColorName = "Violet", ColorType = "Dark" });
+            foreach (var color in colorManager.GetAll())
+            {
+                Console.WriteLine(color.ColorId + color.ColorName + color.ColorType);
+            }
+        }
+
+        private static void AvisContextBrandManagerDeleteTest()
+        {
+            IBrandDal brandDal = new EfBrandDal();
+            BrandManager brandManager = new BrandManager(brandDal);
+            brandManager.Delete(new Brand { BrandId = 6 });
+            brandManager.Delete(new Brand { BrandId = 7 });
+            foreach (var brand in brandManager.GetAll())
+            {
+                Console.WriteLine("Marka Id {0} \nMarka İsmi: {1} \nMarka İtibarı: {2}", brand.BrandId, brand.BrandName, brand.BrandReputation);
+                Console.WriteLine("\n-----------------------------------------------\n");
+            }
+        }
+
+        private static void AvisContextBrandManagerAddTest()
+        {
+            IBrandDal brandDal = new EfBrandDal();
+            BrandManager brandManager = new BrandManager(brandDal);
+            Brand brand1 = new Brand();
+            brand1.BrandReputation = 3;
+            brand1.BrandName = "Peugeot";
+            brandManager.Add(brand1);
+            foreach (var brand in brandManager.GetAll())
+            {
+                Console.WriteLine("Marka Id {0} \nMarka İsmi: {1} \nMarka İtibarı: {2}", brand.BrandId, brand.BrandName, brand.BrandReputation);
+                Console.WriteLine("\n-----------------------------------------------\n");
+            }
         }
 
         private static void CarDetailsDto()
@@ -102,11 +143,11 @@ namespace ConsoleUI
 
             Console.WriteLine("--------------------------------------------------");
 
-            carManager.Add(new Car { BrandId = 4, ColorId = 8, DailyPrice = 400, ModelYear = 2020, Description = "Talisman" });
+            carManager.Add(new Car { BrandId = 3, ColorId = 14, DailyPrice = 300, ModelYear = 2019, Description = "Kadjar" });
 
             Console.WriteLine("--------------------------------------------------");
 
-            foreach (var car in carManager.GetCarsByBrandId(4))
+            foreach (var car in carManager.GetCarsByBrandId(3))
             {
                 Console.WriteLine("{0}\t {1}\t {2}\t {3}\t {4}\t {5}\t", car.Id, car.BrandId, car.ColorId, car.ModelYear, car.DailyPrice, car.Description);
             }
