@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Ultities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -16,37 +18,36 @@ namespace Business.Concrete
         {
             _colorDal = colorDal;
         }
-        public void Add(Color color)
+        public IResult Add(Color color)
         {
             if (color.ColorType == "Rich")
             {
-                _colorDal.Add(color);
-                Console.WriteLine("Renk eklendi.");
+                return new ErrorResult(Messages.ColorNotAdded);
             }
-            else
-            {
-                Console.WriteLine("Renk tipi Rich'den farklı olmamalıdır :" + color.ColorType);
-            }
+            _colorDal.Add(color);
+            return new SuccessResult(Messages.ColorAdded);
         }
 
-        public void Delete(Color color)
+        public IResult Delete(Color color)
         {
                 _colorDal.Delete(color);
+            return new SuccessResult(Messages.ColorDeleted);
         }
 
-        public List<Color> GetAll()
+        public IDataResult<List<Color>> GetAll()
         {
-            return _colorDal.GetAll();
+            return new SuccessDataResult<List<Color>>(_colorDal.GetAll());
         }
 
-        public List<Color> GetColorsByColorType(string ColorType)
+        public IDataResult<List<Color>> GetColorsByColorType(string ColorType)
         {
-            return _colorDal.GetAll(c => c.ColorType == ColorType);
+            return new SuccessDataResult<List<Color>>(_colorDal.GetAll(c => c.ColorType == ColorType));
         }
 
-        public void Update(Color color)
+        public IResult Update(Color color)
         {
             _colorDal.Update(color);
+            return new SuccessResult(Messages.ColorUpdated);
             //Color colorToUpdate = _colors.SingleOrDefault(c => c.ColorId == color.ColorId);
             //colorToUpdate.ColorName = color.ColorName;
             //colorToUpdate.ColorType = color.ColorType;

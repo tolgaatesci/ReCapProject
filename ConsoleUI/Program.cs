@@ -16,7 +16,7 @@ namespace ConsoleUI
             //InMemoryCarDalUpdateAndDeleteTest();
             //AvisContextCarManagerTest();
             //AvisContextColorManagerTest();
-            //CarDetailsDto();
+            CarDetailsDto();
             //AvisContextBrandManagerAddTest();
             //AvisContextBrandManagerDeleteTest();
             //AvisContextColorManagerUpdateTest();
@@ -27,7 +27,8 @@ namespace ConsoleUI
             IColorDal colorDal = new EfColorDal();
             ColorManager colorManager = new ColorManager(colorDal);
             colorManager.Update(new Color { ColorId = 17, ColorName = "Violet", ColorType = "Dark" });
-            foreach (var color in colorManager.GetAll())
+            var result = colorManager.GetAll();
+            foreach (var color in result.Data)
             {
                 Console.WriteLine(color.ColorId + color.ColorName + color.ColorType);
             }
@@ -39,7 +40,8 @@ namespace ConsoleUI
             BrandManager brandManager = new BrandManager(brandDal);
             brandManager.Delete(new Brand { BrandId = 6 });
             brandManager.Delete(new Brand { BrandId = 7 });
-            foreach (var brand in brandManager.GetAll())
+            var result = brandManager.GetAll();
+            foreach (var brand in result.Data)
             {
                 Console.WriteLine("Marka Id {0} \nMarka İsmi: {1} \nMarka İtibarı: {2}", brand.BrandId, brand.BrandName, brand.BrandReputation);
                 Console.WriteLine("\n-----------------------------------------------\n");
@@ -50,11 +52,12 @@ namespace ConsoleUI
         {
             IBrandDal brandDal = new EfBrandDal();
             BrandManager brandManager = new BrandManager(brandDal);
+            var result = brandManager.GetAll();
             Brand brand1 = new Brand();
             brand1.BrandReputation = 3;
             brand1.BrandName = "Peugeot";
             brandManager.Add(brand1);
-            foreach (var brand in brandManager.GetAll())
+            foreach (var brand in result.Data)
             {
                 Console.WriteLine("Marka Id {0} \nMarka İsmi: {1} \nMarka İtibarı: {2}", brand.BrandId, brand.BrandName, brand.BrandReputation);
                 Console.WriteLine("\n-----------------------------------------------\n");
@@ -64,11 +67,20 @@ namespace ConsoleUI
         private static void CarDetailsDto()
         {
             CarManager carManager = new CarManager(new EfCarDal());
+            var result = carManager.GetCarDetails();
 
-            foreach (var car in carManager.GetCarDetails())
+            if (result.Success == true)
             {
-                Console.WriteLine("{0} {1} {2} {3}", car.BrandName, car.CarName, car.ColorName, car.DailyPrice);
+                foreach (var car in result.Data)
+                {
+                    Console.WriteLine("{0} {1} {2} {3}", car.BrandName, car.CarName, car.ColorName, car.DailyPrice);
+                }
             }
+            else
+            {
+                Console.WriteLine(result.Message);
+            }
+
         }
 
         private static void InMemoryCarDalUpdateAndDeleteTest()
@@ -99,7 +111,8 @@ namespace ConsoleUI
             Console.WriteLine("-----------------InMemoryCarDal------------------------");
 
             CarManager carManagerMemory = new CarManager(new InMemoryCarDal());
-            foreach (var car in carManagerMemory.GetAll())
+            var result = carManagerMemory.GetAll();
+            foreach (var car in result.Data)
             {
                 Console.WriteLine("Araçların açıklamaları" + " " + car.Description);
             }
@@ -123,20 +136,24 @@ namespace ConsoleUI
             Console.WriteLine("----------------AvisContext-------------------------");
 
             CarManager carManager = new CarManager(new EfCarDal());
+            var result1 = carManager.GetCarsByColorId(11);
+            var result2 = carManager.GetCarsByBrandId(2);
+            var result3 = carManager.GetAll();
+            var result4 = carManager.GetCarsByBrandId(3);
 
-            foreach (var car in carManager.GetCarsByColorId(11))
+            foreach (var car in result1.Data)
             {
                 Console.WriteLine("Renge göre araçların açıklamaları" + " " + car.Description);
             }
 
-            foreach (var car in carManager.GetCarsByBrandId(2))
+            foreach (var car in result2.Data)
             {
                 Console.WriteLine("Markaya göre araçların model yılları" + " " + car.ModelYear);
             }
 
             Console.WriteLine("--------------------------------------------------");
 
-            foreach (var car in carManager.GetAll())
+            foreach (var car in result3.Data)
             {
                 Console.WriteLine(car.Id + "\t" + car.BrandId + "\t" + car.ColorId + "\t" + car.ModelYear + "\t" + car.DailyPrice + "\t" + car.Description);
             }
@@ -147,7 +164,7 @@ namespace ConsoleUI
 
             Console.WriteLine("--------------------------------------------------");
 
-            foreach (var car in carManager.GetCarsByBrandId(3))
+            foreach (var car in result4.Data)
             {
                 Console.WriteLine("{0}\t {1}\t {2}\t {3}\t {4}\t {5}\t", car.Id, car.BrandId, car.ColorId, car.ModelYear, car.DailyPrice, car.Description);
             }
@@ -156,6 +173,7 @@ namespace ConsoleUI
         private static void AvisContextColorManagerTest()
         {
             ColorManager colorManager = new ColorManager(new EfColorDal());
+            var result = colorManager.GetAll();
 
             //Color color2 = new Color();
             //color2.ColorId = 18;
@@ -169,7 +187,7 @@ namespace ConsoleUI
 
             //colorManager.Add(new Color { ColorId = 19, ColorName = "Siyah", ColorType = "Pastel" });
 
-            foreach (var color in colorManager.GetAll())
+            foreach (var color in result.Data)
             {
                 Console.WriteLine("{0}\t {1}\t \t{2}", color.ColorId, color.ColorName, color.ColorType);
             }

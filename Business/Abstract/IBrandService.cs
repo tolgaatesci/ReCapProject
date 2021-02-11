@@ -1,4 +1,5 @@
 ﻿using Core.Business;
+using Core.Ultities.Results;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,6 @@ namespace Business.Abstract
 {
     public interface IBrandService : IEntitiesRepositoryService<Brand>
     {
-        List<Brand> GetCarsByBrandId(int id);
+        IDataResult<List<Brand>> GetCarsByBrandId(int id);
     }
 }

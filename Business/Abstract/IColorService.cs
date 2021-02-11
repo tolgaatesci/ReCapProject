@@ -1,4 +1,5 @@
 ﻿using Core.Business;
+using Core.Ultities.Results;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ namespace Business.Abstract
 {
     public interface IColorService : IEntitiesRepositoryService<Color>
     {
-        List<Color> GetColorsByColorType(string ColorType);
+        IDataResult<List<Color>> GetColorsByColorType(string ColorType);
         
     }
 }
