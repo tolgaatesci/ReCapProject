@@ -22,7 +22,7 @@ namespace Business.Concrete
         {
             if (car.Description.Length > 2 && car.DailyPrice > 0)
             {
-                return new ErrorResult("Araba ismi minimum 2 karakter olmalıdır ve Araba günlük fiyatı 0'dan büyük olmalıdır.");
+                return new ErrorResult(Messages.CarNotAdded);
             }
             _carDal.Add(car);
             return new SuccessResult(Messages.CarAdded);
