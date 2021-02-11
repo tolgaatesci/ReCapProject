@@ -16,10 +16,106 @@ namespace ConsoleUI
             //InMemoryCarDalUpdateAndDeleteTest();
             //AvisContextCarManagerTest();
             //AvisContextColorManagerTest();
-            CarDetailsDto();
+            //CarDetailsDto();
             //AvisContextBrandManagerAddTest();
             //AvisContextBrandManagerDeleteTest();
             //AvisContextColorManagerUpdateTest();
+            AvisContextUserManagerUpdateTest();
+            AvisContextCustomerManagerDeleteTest();
+            AvisContextRentalManagerListTest();
+            AvisContextRentalManagerAddTest();
+            RentalDetailsDto();
+            AvisContextUserManagerAddTest();
+            AvisContextRentalManagerDeleteTest();
+        }
+
+        private static void AvisContextRentalManagerDeleteTest()
+        {
+            IRentalDal rentalDal = new EfRentalDal();
+            RentalManager rentalManager = new RentalManager(rentalDal);
+            rentalManager.Delete(new Rental { Id=4 });
+            var result = rentalManager.GetAll();
+            foreach (var rental in result.Data)
+            {
+                Console.WriteLine("{0}\t {1}\t {2}\t {3}\t {4}", rental.CarId, rental.CustomerId, rental.Id, rental.RentDate, rental.ReturnDate);
+            }
+        }
+
+        private static void AvisContextUserManagerAddTest()
+        {
+            IUserDal userDal = new EfUserDal();
+            UserManager userManager = new UserManager(userDal);
+            userManager.Add(new User() { FirstName = "Tolga", LastName = "Burak", Email = "tolga@mynet.com", Password = 123456});
+            var result = userManager.GetAll();
+            foreach (var user in result.Data)
+            {
+                Console.WriteLine("{0}\t {1}\t {2}\t {3}\t {4}", user.Id, user.FirstName, user.LastName, user.Email, user.Password);
+            }
+        }
+        private static void RentalDetailsDto()
+        {
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
+            var result = rentalManager.GetRentalDetails();
+
+            if (result.Success == true)
+            {
+                foreach (var rental in result.Data)
+                {
+                    Console.WriteLine("{0}\t {1}\t {2}", rental.CarName, rental.CustomerName, rental.RentDate);
+                }
+            }
+            else
+            {
+                Console.WriteLine(result.Message);
+            }
+
+        }
+
+        private static void AvisContextRentalManagerAddTest()
+        {
+            IRentalDal rentalDal = new EfRentalDal();
+            RentalManager rentalManager = new RentalManager(rentalDal);
+            rentalManager.Add(new Rental() {CarId=5, CustomerId=1, RentDate = new DateTime(2021,1,21) });  
+            var result = rentalManager.GetAll();
+            foreach (var rental in result.Data)
+            {
+                Console.WriteLine("{0}\t {1}\t {2}\t {3}\t {4}", rental.CarId, rental.CustomerId, rental.Id, rental.RentDate, rental.ReturnDate);
+            }
+        }
+
+        private static void AvisContextRentalManagerListTest()
+        {
+            IRentalDal rentalDal = new EfRentalDal();
+            RentalManager rentalManager = new RentalManager(rentalDal);
+            var result = rentalManager.GetAll();
+            foreach (var rental in result.Data)
+            {
+                Console.WriteLine("{0}\t {1}\t {2}\t {3}\t {4}", rental.CarId, rental.CustomerId, rental.Id, rental.RentDate, rental.ReturnDate);
+            }
+        }
+
+        private static void AvisContextCustomerManagerDeleteTest()
+        {
+            ICustomerDal customerDal = new EfCustomerDal();
+            CustomerManager customerManager = new CustomerManager(customerDal);
+            customerManager.Delete(new Customer { CustomerId = 3});
+            var result = customerManager.GetAll();
+            foreach (var customer in result.Data)
+            {
+                Console.WriteLine(customer.CustomerId + customer.UserId + customer.CompanyName);
+            }
+        }
+
+        private static void AvisContextUserManagerUpdateTest()
+        {
+            IUserDal userDal = new EfUserDal();
+            UserManager userManager = new UserManager(userDal);
+            userManager.Update(new User {  Id = 3, FirstName = "Can Bartu", LastName = "Küçükandonyadis", Email = "canbartu@yandex.com", Password = 789654123});
+            var result = userManager.GetAll();
+            foreach (var user in result.Data)
+            {
+                Console.WriteLine(user.Id + user.FirstName + user.LastName + user.Email + user.Password);
+            }
         }
 
         private static void AvisContextColorManagerUpdateTest()
@@ -38,8 +134,8 @@ namespace ConsoleUI
         {
             IBrandDal brandDal = new EfBrandDal();
             BrandManager brandManager = new BrandManager(brandDal);
-            brandManager.Delete(new Brand { BrandId = 6 });
-            brandManager.Delete(new Brand { BrandId = 7 });
+            brandManager.Delete(new Brand { BrandId = 5 });
+            brandManager.Delete(new Brand { BrandId = 9 });
             var result = brandManager.GetAll();
             foreach (var brand in result.Data)
             {
