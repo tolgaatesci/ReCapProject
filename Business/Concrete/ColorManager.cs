@@ -6,6 +6,7 @@ using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace Business.Concrete
@@ -33,6 +34,7 @@ namespace Business.Concrete
                 _colorDal.Delete(color);
             return new SuccessResult(Messages.ColorDeleted);
         }
+
 
         public IDataResult<List<Color>> GetAll()
         {

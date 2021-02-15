@@ -20,20 +20,20 @@ namespace ConsoleUI
             //AvisContextBrandManagerAddTest();
             //AvisContextBrandManagerDeleteTest();
             //AvisContextColorManagerUpdateTest();
-            AvisContextUserManagerUpdateTest();
-            AvisContextCustomerManagerDeleteTest();
-            AvisContextRentalManagerListTest();
+            //AvisContextUserManagerUpdateTest();
+            //AvisContextCustomerManagerDeleteTest();
+            //AvisContextRentalManagerListTest();
             AvisContextRentalManagerAddTest();
-            RentalDetailsDto();
-            AvisContextUserManagerAddTest();
-            AvisContextRentalManagerDeleteTest();
+            //RentalDetailsDto();
+            //AvisContextUserManagerAddTest();
+            //AvisContextRentalManagerDeleteTest();
         }
 
         private static void AvisContextRentalManagerDeleteTest()
         {
             IRentalDal rentalDal = new EfRentalDal();
             RentalManager rentalManager = new RentalManager(rentalDal);
-            rentalManager.Delete(new Rental { Id=4 });
+            rentalManager.Delete(new Rental { Id=9 });
             var result = rentalManager.GetAll();
             foreach (var rental in result.Data)
             {
@@ -75,9 +75,10 @@ namespace ConsoleUI
         {
             IRentalDal rentalDal = new EfRentalDal();
             RentalManager rentalManager = new RentalManager(rentalDal);
-            rentalManager.Add(new Rental() {CarId=5, CustomerId=1, RentDate = new DateTime(2021,1,21) });  
-            var result = rentalManager.GetAll();
-            foreach (var rental in result.Data)
+            var result1 =rentalManager.Add(new Rental {CarId=5, RentDate = new DateTime(2021,1,21), ReturnDate = new DateTime(2021,2,14) });
+            var result2 = rentalManager.GetAll();
+
+            foreach (var rental in result2.Data)
             {
                 Console.WriteLine("{0}\t {1}\t {2}\t {3}\t {4}", rental.CarId, rental.CustomerId, rental.Id, rental.RentDate, rental.ReturnDate);
             }

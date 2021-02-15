@@ -6,6 +6,7 @@ using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace Business.Concrete
@@ -13,14 +14,14 @@ namespace Business.Concrete
     public class RentalManager:IRentalService
     {
         IRentalDal _rentalDal;
-        public RentalManager(IRentalDal rentaldal)
+        public RentalManager(IRentalDal entity)
         {
-            _rentalDal = rentaldal;
+            _rentalDal = entity;
         }
 
         public IResult Add(Rental entity)
         {
-            var carRentalStatus = _rentalDal.Get(r => r.CarId == entity.CarId);
+            Rental carRentalStatus = _rentalDal.Get(r => r.CarId == entity.CarId);
             if (carRentalStatus.ReturnDate == null)
             {
                 return new ErrorResult(Messages.RentalNotAdded);
@@ -34,6 +35,7 @@ namespace Business.Concrete
             _rentalDal.Delete(entity);
             return new SuccessResult(Messages.RentalDeleted);
         }
+
 
         public IDataResult<List<Rental>> GetAll()
         {

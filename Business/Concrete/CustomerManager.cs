@@ -5,6 +5,7 @@ using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace Business.Concrete
@@ -28,6 +29,7 @@ namespace Business.Concrete
             _customerDal.Delete(entity);
             return new SuccessResult(Messages.CustomerDeleted);
         }
+
 
         public IDataResult<List<Customer>> GetAll()
         {

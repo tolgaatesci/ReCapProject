@@ -8,8 +8,13 @@ using System.Text;
 
 namespace Business.Abstract
 {
-    public interface IRentalService : IEntitiesRepositoryService<Rental>
+    public interface IRentalService 
     {
         IDataResult<List<RentalDetailDto>> GetRentalDetails();
+
+        IDataResult<List<Rental>> GetAll();
+        IResult Add(Rental entity);
+        IResult Update(Rental entity);
+        IResult Delete(Rental entity);
     }
 }
