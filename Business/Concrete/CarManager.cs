@@ -23,10 +23,10 @@ namespace Business.Concrete
         {
             if (car.Description.Length > 2 && car.DailyPrice > 0)
             {
-                return new ErrorResult(Messages.CarNotAdded);
+                _carDal.Add(car);
+                return new SuccessResult(Messages.CarAdded);
             }
-            _carDal.Add(car);
-            return new SuccessResult(Messages.CarAdded);
+            return new ErrorResult(Messages.CarNotAdded);
         }
 
         public IResult Delete(Car car)
