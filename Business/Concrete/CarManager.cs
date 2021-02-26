@@ -2,6 +2,7 @@
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
+using Core.Ultities.Business;
 using Core.Ultities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -24,6 +25,13 @@ namespace Business.Concrete
         [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car)
         {
+            IResult result = BusinessRules.Run(CheckIfCarImageCount(car.Id));
+
+            if (result != null)
+            {
+                return result;
+            }
+
             _carDal.Add(car);
             return new SuccessResult(Messages.CarAdded);
         }
@@ -72,6 +80,16 @@ namespace Business.Concrete
         {
             _carDal.Update(car);
             return new SuccessResult(Messages.CarUpdated);
+        }
+
+        private IResult CheckIfCarImageCount(int categoryId) //Bir arabanın en fazla 5 resmi olabilir. 
+        {
+            var result = _carDal.GetAll(p => p.Id == categoryId).Count;
+            if (result >= 5)
+            {
+                return new ErrorResult("Olmadı...");
+            }
+            return new SuccessResult();
         }
     }
 }

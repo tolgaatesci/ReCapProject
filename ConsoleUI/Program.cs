@@ -23,7 +23,7 @@ namespace ConsoleUI
             //AvisContextUserManagerUpdateTest();
             //AvisContextCustomerManagerDeleteTest();
             //AvisContextRentalManagerListTest();
-            AvisContextRentalManagerAddTest();
+            //AvisContextRentalManagerAddTest();
             //RentalDetailsDto();
             //AvisContextUserManagerAddTest();
             //AvisContextRentalManagerDeleteTest();
