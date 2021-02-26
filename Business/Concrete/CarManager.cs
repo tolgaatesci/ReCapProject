@@ -25,12 +25,12 @@ namespace Business.Concrete
         [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car)
         {
-            IResult result = BusinessRules.Run(CheckIfCarImageCount(car.Id));
+            //IResult result = BusinessRules.Run(CheckIfCarImageCount(car.Id));
 
-            if (result != null)
-            {
-                return result;
-            }
+            //if (result != null)
+            //{
+            //    return result;
+            //}
 
             _carDal.Add(car);
             return new SuccessResult(Messages.CarAdded);
@@ -82,7 +82,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CarUpdated);
         }
 
-        private IResult CheckIfCarImageCount(int categoryId) //Bir arabanın en fazla 5 resmi olabilir. 
+        private IResult CheckIfCarImageCount(int categoryId) 
         {
             var result = _carDal.GetAll(p => p.Id == categoryId).Count;
             if (result >= 5)

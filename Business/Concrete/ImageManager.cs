@@ -1,4 +1,7 @@
 ﻿using Business.Abstract;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
+using Core.Ultities.Business;
 using Core.Ultities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -15,14 +18,24 @@ namespace Business.Concrete
         {
             _imageDal = imageDal;
         }
+        [ValidationAspect(typeof(ImageValidator))]
         public IResult Add(Image entity)
         {
-            throw new NotImplementedException();
+            var result = BusinessRules.Run(CheckCarImageCount(entity.CarID));
+            if (result != null)
+            {
+                return result;
+            }
+            _imageDal.Add(entity);
+
+            return new SuccessResult();
         }
 
+        [ValidationAspect(typeof(ImageValidator))]
         public IResult Delete(Image entity)
         {
-            throw new NotImplementedException();
+            _imageDal.Delete(entity);
+            return new SuccessResult();
         }
 
         public IDataResult<List<Image>> GetAll()
@@ -30,9 +43,21 @@ namespace Business.Concrete
             throw new NotImplementedException();
         }
 
+        [ValidationAspect(typeof(ImageValidator))]
         public IResult Update(Image entity)
         {
-            throw new NotImplementedException();
+            _imageDal.Update(entity);
+            return new SuccessResult();
+        }
+
+        private IResult CheckCarImageCount(int carId)
+        {
+            var result = _imageDal.GetAll(x => x.CarID == carId);
+            if (result.Count >= 5)
+            {
+                return new ErrorResult("Bir arabanın en fazla 5 resmi olabilir. ");
+            }
+            return new SuccessResult();
         }
     }
 }
